@@ -15,10 +15,8 @@ jobs:
           node-version: '14.x'
       - name: Install
         run: npm ci
-	
       - name: Update Icon
         run: FIGMA_TOKEN=${{ secrets.FIGMA_TOKEN }} FIGMA_FILE_KEY=${{ secrets.FIGMA_FILE_KEY }} npm run build:asset
-	
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
