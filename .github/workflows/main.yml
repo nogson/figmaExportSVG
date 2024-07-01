@@ -24,8 +24,8 @@ jobs:
           commit-message: "feat: update icons"
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-          branch: feat/update-icons
+          branch: 
           branch-suffix: timestamp
-          delete-branch: false
+          delete-branch: true
           title: "feat: update icons"
           body: Icons has been updated
