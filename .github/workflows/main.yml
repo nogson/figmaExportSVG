@@ -26,6 +26,6 @@ jobs:
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           branch: feat/update-icons
           branch-suffix: timestamp
-          delete-branch: true
+          #delete-branch: true
           title: "feat: update icons"
           body: Icons has been updated
