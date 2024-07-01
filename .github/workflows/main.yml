@@ -10,9 +10,9 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
-          node-version: '14.x'
+          node-version: "20.x"
       - name: Install
         run: npm ci
       - name: Update Icon
@@ -21,11 +21,11 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
-          commit-message: 'feat: update icons'
+          commit-message: "feat: update icons"
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           branch: feat/update-icons
           branch-suffix: timestamp
           delete-branch: true
-          title: 'feat: update icons'
+          title: "feat: update icons"
           body: Icons has been updated
