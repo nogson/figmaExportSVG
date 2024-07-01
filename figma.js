@@ -16,6 +16,8 @@ const download = async (url, path) => {
   fs.writeFileSync(path, data);
 };
 
+console.log('ok')
+
 const getComponents = async () => {
   try {
     const res = await fetch(
