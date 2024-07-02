@@ -1,10 +1,7 @@
+
 name: Update Icon
 
 on: [workflow_dispatch]
-
-permissions:
-  contents: write
-  pull-requests: write
 
 jobs:
   update-icon:
@@ -22,14 +19,15 @@ jobs:
       - name: Update Icon
         run: FIGMA_TOKEN=${{ secrets.FIGMA_TOKEN }} FIGMA_FILE_KEY=${{ secrets.FIGMA_FILE_KEY }} npm run build:asset
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
-        with:
-          token: ${{ secrets.REPO_ACCESS_TOKEN }}
-          commit-message: "feat: update icons"
-          committer: GitHub <noreply@github.com>
-          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-          branch: feat/update-icons
-          branch-suffix: timestamp
-          delete-branch: false
-          title: "feat: update icons"
-          body: Icons has been updated
+        run: echo "Create Pull Request"
+        # uses: peter-evans/create-pull-request@v3
+        # with:
+        #   token: ${{ secrets.REPO_ACCESS_TOKEN }}
+        #   commit-message: "feat: update icons"
+        #   committer: GitHub <noreply@github.com>
+        #   author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+        #   branch: feat/update-icons
+        #   branch-suffix: timestamp
+        #   delete-branch: false
+        #   title: "feat: update icons"
+        #   body: Icons has been updated
