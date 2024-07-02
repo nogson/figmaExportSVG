@@ -18,7 +18,7 @@ jobs:
       - name: Update Icon
         run: FIGMA_TOKEN=${{ secrets.FIGMA_TOKEN }} FIGMA_FILE_KEY=${{ secrets.FIGMA_FILE_KEY }} npm run build:asset
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           commit-message: "feat: update icons"
@@ -26,6 +26,6 @@ jobs:
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           branch: feat/update-icons
           branch-suffix: timestamp
-          delete-branch: false
+          delete-branch: true
           title: "feat: update icons"
           body: Icons has been updated
