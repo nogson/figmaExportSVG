@@ -5,8 +5,8 @@ import fs from "fs";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const FIGMA_FILE_KEY = process.env.FIGMA_FILE_KEY;
-const TOKEN = process.env.FIGMA_TOKEN;
+// const FIGMA_FILE_KEY = process.env.FIGMA_FILE_KEY;
+// const TOKEN = process.env.FIGMA_TOKEN;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
