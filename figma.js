@@ -17,7 +17,7 @@ const download = async (url, path) => {
   fs.writeFileSync(path, data);
 };
 
-console.log(JSON.stringify(PAYLOAD));
+console.log("%o", PAYLOAD);
 
 const getComponents = async () => {
   try {
