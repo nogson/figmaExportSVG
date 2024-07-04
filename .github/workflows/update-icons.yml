@@ -16,7 +16,7 @@ jobs:
       - name: Install
         run: npm ci
       - name: Hoge
-        run: echo ${{ github.event.client_payload.data }}
+        run: echo ${{ github.event.client_payload.data.color }}
       - name: Update Icon
         run: FIGMA_TOKEN=${{ secrets.FIGMA_TOKEN }} FIGMA_FILE_KEY=${{ secrets.FIGMA_FILE_KEY }} PAYLOAD=${{ github.event.client_payload.data }} npm run build:asset
       - name: Create Pull Request
