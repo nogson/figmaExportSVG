@@ -15,8 +15,10 @@ jobs:
           node-version: "20.x"
       - name: Install
         run: npm ci
+      - name: Hoge
+        run: echo ${{ toJson(github.event.client_payload) }}
       - name: Update Icon
-        run: FIGMA_TOKEN=${{ secrets.FIGMA_TOKEN }} FIGMA_FILE_KEY=${{ secrets.FIGMA_FILE_KEY }} PAYLOAD=${{ github.event.client_payload }} npm run build:asset
+        run: FIGMA_TOKEN=${{ secrets.FIGMA_TOKEN }} FIGMA_FILE_KEY=${{ secrets.FIGMA_FILE_KEY }} PAYLOAD=${{ github.event.client_payload.data }} npm run build:asset
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
