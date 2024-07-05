@@ -49,15 +49,6 @@ const getSvgImages = async (ids) => {
 };
 
 async function main() {
-  // 同期読み込みの場合
-  try {
-    const data = fs.readFileSync("variables.json", "utf8");
-    const payload = JSON.parse(data);
-    console.log(payload);
-  } catch (err) {
-    console.error(err);
-  }
-
   // ディレクトリを削除して初期化
   await fs.promises.rm(`${__dirname}/assets`, { recursive: true, force: true });
   // ディレクトリを作成

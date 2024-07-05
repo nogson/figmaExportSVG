@@ -1,6 +1,8 @@
 name: Update Icon
 
-on: [workflow_dispatch, repository_dispatch]
+on:
+  repository_dispatch:
+    types: [Update-Variables]
 
 jobs:
   update-icon:
@@ -17,17 +19,19 @@ jobs:
         run: npm ci
       - name: Prepare Payload
         run: echo '${{ toJson(github.event.client_payload.data) }}' > variables.json
-      - name: Update Icon
-        run: FIGMA_TOKEN=${{ secrets.FIGMA_TOKEN }} FIGMA_FILE_KEY=${{ secrets.FIGMA_FILE_KEY }} npm run build:asset  -- variables.json
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.REPO_ACCESS_TOKEN }}
-          commit-message: "feat: update icons"
-          committer: GitHub <noreply@github.com>
-          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-          branch: feat/update-icons
-          branch-suffix: timestamp
-          delete-branch: true
-          title: "feat: update icons"
-          body: Icons has been updated
+      - name: Update Variables
+        run: npm run build:variables  -- variables.json
+      # - name: Update Icon
+      #   run: FIGMA_TOKEN=${{ secrets.FIGMA_TOKEN }} FIGMA_FILE_KEY=${{ secrets.FIGMA_FILE_KEY }} npm run build:icon  -- icon.json
+      # - name: Create Pull Request
+      #   uses: peter-evans/create-pull-request@v6
+      #   with:
+      #     token: ${{ secrets.REPO_ACCESS_TOKEN }}
+      #     commit-message: "feat: update icons"
+      #     committer: GitHub <noreply@github.com>
+      #     author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+      #     branch: feat/update-icons
+      #     branch-suffix: timestamp
+      #     delete-branch: true
+      #     title: "feat: update icons"
+      #     body: Icons has been updated
