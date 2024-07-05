@@ -16,54 +16,25 @@ const download = async (url, path) => {
   fs.writeFileSync(path, data);
 };
 
-const getComponents = async () => {
-  try {
-    const res = await fetch(
-      `https://api.figma.com/v1/files/${FIGMA_FILE_KEY}/components`,
-      {
-        headers: {
-          "X-FIGMA-TOKEN": TOKEN,
-        },
-        responseType: "json",
-      }
-    );
-    const body = await res.json();
-    return body.meta.components;
-  } catch (error) {
-    throw error;
-  }
-};
-
-const getSvgImages = async (ids) => {
-  const res = await fetch(
-    `https://api.figma.com/v1/images/${FIGMA_FILE_KEY}?ids=${ids}&format=svg`,
-    {
-      headers: {
-        "X-FIGMA-TOKEN": TOKEN,
-      },
-      responseType: "json",
-    }
-  );
-  const images = await res.json();
-  return images;
-};
 
 async function main() {
-  // 同期読み込みの場合
+
+
+  // ディレクトリを削除して初期化
+  await fs.promises.rm(`${__dirname}/.style-dictionary/tokens`, { recursive: true, force: true });
+  // ディレクトリを作成
+  await fs.promises.mkdir(`${__dirname}/.style-dictionary/tokens`, { recursive: true });
+  // jsonを取得
   try {
     const data = fs.readFileSync("variables.json", "utf8");
-    const payload = JSON.parse(data);
+    fs.writeFileSync(`${__dirname}/.style-dictionary/tokens/variables.json`, data);
+    // const payload = JSON.parse(data);
     console.log(payload);
   } catch (err) {
     console.error(err);
   }
 
-  // // ディレクトリを削除して初期化
-  // await fs.promises.rm(`${__dirname}/assets`, { recursive: true, force: true });
-  // // ディレクトリを作成
-  // await fs.promises.mkdir(`${__dirname}/assets`, { recursive: true });
-  // // コンポーネントを取得
-  // const components = await getComponents();
+
   // // 画像を取得
   // const ids = components.map((r) => r.node_id).join(",");
   // const { images } = await getSvgImages(ids);

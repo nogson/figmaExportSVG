@@ -21,15 +21,15 @@ jobs:
         run: echo '${{ toJson(github.event.client_payload.data) }}' > variables.json
       - name: Update Variables
         run: npm run build:variables  -- variables.json
-      # - name: Create Pull Request
-      #   uses: peter-evans/create-pull-request@v6
-      #   with:
-      #     token: ${{ secrets.REPO_ACCESS_TOKEN }}
-      #     commit-message: "feat: update variables"
-      #     committer: GitHub <noreply@github.com>
-      #     author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-      #     branch: feat/update-variables
-      #     branch-suffix: timestamp
-      #     delete-branch: true
-      #     title: "feat: update variables"
-      #     body: Variables has been updated
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          commit-message: "feat: update variables"
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          branch: feat/update-variables
+          branch-suffix: timestamp
+          delete-branch: true
+          title: "feat: update variables"
+          body: Variables has been updated
