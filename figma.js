@@ -7,7 +7,7 @@ dotenv.config();
 
 const FIGMA_FILE_KEY = process.env.FIGMA_FILE_KEY;
 const TOKEN = process.env.FIGMA_TOKEN;
-const PAYLOAD = JSON.parse(process.env.PAYLOAD);
+const PAYLOAD = process.env.PAYLOAD;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
