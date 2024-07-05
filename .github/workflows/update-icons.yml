@@ -2,7 +2,7 @@ name: Update Icon
 
 on:
   repository_dispatch:
-    types: [Update-icons]
+    types: [Update-Icons]
 
 jobs:
   update-icon:
