@@ -28,8 +28,12 @@ async function main() {
   });
   // jsonを取得
   try {
-    const data = fs.readFileSync("variables.json", "utf8");
-    // const payload = JSON.parse(data);
+    // debug用に一応表示
+    const data = fs.readFileSync(
+      "style-dictionary/tokens/variables.json",
+      "utf8"
+    );
+    const payload = JSON.parse(data);
     console.log(payload);
   } catch (err) {
     console.error(err);
