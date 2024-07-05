@@ -38,20 +38,6 @@ async function main() {
   } catch (err) {
     console.error(err);
   }
-
-  // // 画像を取得
-  // const ids = components.map((r) => r.node_id).join(",");
-  // const { images } = await getSvgImages(ids);
-
-  // // 画像をダウンロード
-  // const nodeIds = Object.keys(images);
-  // nodeIds.forEach(async (nodeId) => {
-  //   const url = images[nodeId];
-  //   const component = components.find((r) => r.node_id === nodeId);
-  //   const name = component.name;
-  //   const filePath = `${__dirname}/assets/${name}.svg`;
-  //   await download(url, filePath);
-  // });
 }
 
 main();
