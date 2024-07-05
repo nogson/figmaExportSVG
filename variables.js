@@ -16,24 +16,24 @@ const download = async (url, path) => {
   fs.writeFileSync(path, data);
 };
 
-
 async function main() {
-
-
   // ディレクトリを削除して初期化
-  await fs.promises.rm(`${__dirname}/.style-dictionary/tokens`, { recursive: true, force: true });
+  await fs.promises.rm(`${__dirname}/.style-dictionary/tokens`, {
+    recursive: true,
+    force: true,
+  });
   // ディレクトリを作成
-  await fs.promises.mkdir(`${__dirname}/.style-dictionary/tokens`, { recursive: true });
+  await fs.promises.mkdir(`${__dirname}/.style-dictionary/tokens`, {
+    recursive: true,
+  });
   // jsonを取得
   try {
     const data = fs.readFileSync("variables.json", "utf8");
-    fs.writeFileSync(`${__dirname}/.style-dictionary/tokens/variables.json`, data);
     // const payload = JSON.parse(data);
     console.log(payload);
   } catch (err) {
     console.error(err);
   }
-
 
   // // 画像を取得
   // const ids = components.map((r) => r.node_id).join(",");
