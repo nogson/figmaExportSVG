@@ -1,0 +1,35 @@
+name: Update Variables
+
+on:
+  repository_dispatch:
+    types: [Update-Variables]
+
+jobs:
+  update-icon:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+      - name: Install
+        run: npm ci
+      - name: Prepare Payload
+        run: echo '${{ toJson(github.event.client_payload.data) }}' > variables.json
+      - name: Update Variables
+        run: npm run build:variables  -- variables.json
+      # - name: Create Pull Request
+      #   uses: peter-evans/create-pull-request@v6
+      #   with:
+      #     token: ${{ secrets.REPO_ACCESS_TOKEN }}
+      #     commit-message: "feat: update variables"
+      #     committer: GitHub <noreply@github.com>
+      #     author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+      #     branch: feat/update-variables
+      #     branch-suffix: timestamp
+      #     delete-branch: true
+      #     title: "feat: update variables"
+      #     body: Variables has been updated
