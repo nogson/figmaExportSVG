@@ -18,7 +18,7 @@ jobs:
       - name: Install
         run: npm ci
       - name: Prepare Payload
-        run: echo '${{ toJson(github.event.client_payload.data) }}' > ./.style-dictionary/tokens/variables.json
+        run: echo '${{ toJson(github.event.client_payload.data) }}' > .style-dictionary/tokens/variables.json
       - name: Update Variables
         run: npm run build:variables  -- variables.json
       - name: Create Pull Request
