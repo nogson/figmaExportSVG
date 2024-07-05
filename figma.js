@@ -51,7 +51,7 @@ const getSvgImages = async (ids) => {
 async function main() {
   // 同期読み込みの場合
   try {
-    const data = fs.readFileSync("payload.json", "utf8");
+    const data = fs.readFileSync("variables.json", "utf8");
     const payload = JSON.parse(data);
     console.log(payload);
   } catch (err) {
