@@ -7,7 +7,7 @@ dotenv.config();
 
 const FIGMA_FILE_KEY = process.env.FIGMA_FILE_KEY;
 const TOKEN = process.env.FIGMA_TOKEN;
-const PAYLOAD = process.env.PAYLOAD;
+const PAYLOAD = JSON.parse(process.env.PAYLOAD);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -17,7 +17,7 @@ const download = async (url, path) => {
   fs.writeFileSync(path, data);
 };
 
-console.log(typeof PAYLOAD);
+console.log(PAYLOAD);
 
 const getComponents = async () => {
   try {
