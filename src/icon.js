@@ -7,6 +7,7 @@ dotenv.config();
 
 const FIGMA_FILE_KEY = process.env.FIGMA_FILE_KEY;
 const TOKEN = process.env.FIGMA_TOKEN;
+const PLATFORM = process.env.PLATFORM;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -49,25 +50,26 @@ const getSvgImages = async (ids) => {
 };
 
 async function main() {
-  // ディレクトリを削除して初期化
-  await fs.promises.rm(`${__dirname}/assets`, { recursive: true, force: true });
-  // ディレクトリを作成
-  await fs.promises.mkdir(`${__dirname}/assets`, { recursive: true });
-  // コンポーネントを取得
-  const components = await getComponents();
-  // 画像を取得
-  const ids = components.map((r) => r.node_id).join(",");
-  const { images } = await getSvgImages(ids);
+  console.log(PLATFORM);
+  // // ディレクトリを削除して初期化
+  // await fs.promises.rm(`${__dirname}/assets`, { recursive: true, force: true });
+  // // ディレクトリを作成
+  // await fs.promises.mkdir(`${__dirname}/assets`, { recursive: true });
+  // // コンポーネントを取得
+  // const components = await getComponents();
+  // // 画像を取得
+  // const ids = components.map((r) => r.node_id).join(",");
+  // const { images } = await getSvgImages(ids);
 
-  // 画像をダウンロード
-  const nodeIds = Object.keys(images);
-  nodeIds.forEach(async (nodeId) => {
-    const url = images[nodeId];
-    const component = components.find((r) => r.node_id === nodeId);
-    const name = component.name;
-    const filePath = `${__dirname}/assets/${name}.svg`;
-    await download(url, filePath);
-  });
+  // // 画像をダウンロード
+  // const nodeIds = Object.keys(images);
+  // nodeIds.forEach(async (nodeId) => {
+  //   const url = images[nodeId];
+  //   const component = components.find((r) => r.node_id === nodeId);
+  //   const name = component.name;
+  //   const filePath = `${__dirname}/assets/${name}.svg`;
+  //   await download(url, filePath);
+  // });
 }
 
 main();
