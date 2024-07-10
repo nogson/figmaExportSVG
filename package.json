@@ -6,10 +6,10 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:icon": "node ./icon.js",
-    "build:variables": "node ./variables.js",
-    "build:tokens": "style-dictionary build --config ./style-dictionary/config.json",
-    "clean:tokens": "style-dictionary clean  --config ./style-dictionary/config.json"
+    "build:icon": "node ./src/icon.js",
+    "build:variables": "node ./src/variables.js",
+    "build:tokens": "style-dictionary build --config ./styleDictionary/config.json",
+    "clean:tokens": "style-dictionary clean  --config ./styleDictionary/config.json"
   },
   "author": "",
   "license": "ISC",

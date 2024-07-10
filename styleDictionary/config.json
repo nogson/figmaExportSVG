@@ -1,5 +1,5 @@
 {
-  "source": ["style-dictionary/tokens/**/*.json"],
+  "source": ["styleDictionary/tokens/**/*.json"],
   "platforms": {
     "android": {
       "transformGroup": "android",
@@ -12,35 +12,6 @@
         {
           "destination": "colors.xml",
           "format": "android/colors"
-        }
-      ]
-    },
-    "compose": {
-      "transformGroup": "compose",
-      "buildPath": "build/compose/",
-      "files": [
-        {
-          "destination": "StyleDictionaryColor.kt",
-          "format": "compose/object",
-          "options": {
-            "className": "StyleDictionaryColor",
-            "packageName": "StyleDictionaryColor"
-          },
-          "filter": {
-            "$type": "color"
-          }
-        },
-        {
-          "destination": "StyleDictionarySize.kt",
-          "format": "compose/object",
-          "options": {
-            "className": "StyleDictionarySize",
-            "packageName": "StyleDictionarySize",
-            "type": "float"
-          },
-          "filter": {
-            "$type": "dimension"
-          }
         }
       ]
     },

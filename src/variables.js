@@ -5,16 +5,9 @@ import fs from "fs";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const FIGMA_FILE_KEY = process.env.FIGMA_FILE_KEY;
-const TOKEN = process.env.FIGMA_TOKEN;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const download = async (url, path) => {
-  const res = await fetch(url);
-  const data = await res.text();
-  fs.writeFileSync(path, data);
-};
 
 async function main() {
   // ディレクトリを削除して初期化
