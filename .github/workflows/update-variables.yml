@@ -19,6 +19,7 @@ jobs:
         run: npm ci
       - name: Prepare Payload
         run: |
+          mkdir -p ./style-dictionary/tokens
           echo '${{ toJson(github.event.client_payload.data) }}' > ./styleDictionary/tokens/variables.json
       # - name: Update Variables
       #   run: npm run build:variables  -- ./style-dictionary/tokens/variables.json
