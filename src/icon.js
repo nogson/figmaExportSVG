@@ -7,7 +7,7 @@ import svg2vectordrawable from "svg2vectordrawable";
 dotenv.config();
 
 const FIGMA_FILE_KEY = process.env.FIGMA_FILE_KEY;
-const TOKEN = process.env.FIGMA_TOKEN;
+const FIGMA_TOKEN = process.env.FIGMA_TOKEN;
 const PLATFORM = process.env.PLATFORM;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -59,12 +59,14 @@ const getComponents = async () => {
       `https://api.figma.com/v1/files/${FIGMA_FILE_KEY}/components`,
       {
         headers: {
-          "X-FIGMA-TOKEN": TOKEN,
+          "X-FIGMA-TOKEN": FIGMA_TOKEN,
         },
         responseType: "json",
       }
     );
     const body = await res.json();
+    console.log(body);
+
     return body.meta.components;
   } catch (error) {
     throw error;
@@ -76,7 +78,7 @@ const getSvgImages = async (ids) => {
     `https://api.figma.com/v1/images/${FIGMA_FILE_KEY}?ids=${ids}&format=svg`,
     {
       headers: {
-        "X-FIGMA-TOKEN": TOKEN,
+        "X-FIGMA-TOKEN": FIGMA_TOKEN,
       },
       responseType: "json",
     }
