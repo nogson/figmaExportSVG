@@ -3,6 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import fs from "fs";
 import * as dotenv from "dotenv";
+import svg2vectordrawable from "svg2vectordrawable";
 dotenv.config();
 
 const FIGMA_FILE_KEY = process.env.FIGMA_FILE_KEY;
@@ -11,10 +12,45 @@ const PLATFORM = process.env.PLATFORM;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const download = async (url, path) => {
+// TODO 書き出し先は確認が必要
+const androidImageDir = `${__dirname}/PBaseNavi/app/src/main/res/drawable`;
+const iOSImageDir = `${__dirname}/PBaseNavi/Assets.xcassets`;
+
+const downloadXML = async (url, name) => {
   const res = await fetch(url);
   const data = await res.text();
-  fs.writeFileSync(path, data);
+  const xml = await svg2vectordrawable(data);
+  fs.writeFileSync(`${androidImageDir}/${name}.xml`, xml);
+};
+
+const downloadSVG = async (url, name) => {
+  const res = await fetch(url);
+  const data = await res.text();
+  const dirname = `${iOSImageDir}/${name}.imageset`;
+
+  await fs.promises.mkdir(dirname, {
+    recursive: true,
+  });
+  fs.writeFileSync(`${dirname}/${name}.svg`, data);
+  fs.writeFileSync(`${dirname}/Content.json`, getContentJson(name));
+};
+
+const getContentJson = (name) => {
+  return JSON.stringify({
+    images: [
+      {
+        filename: `${name}.svg`,
+        idiom: "universal",
+      },
+    ],
+    info: {
+      author: "xcode",
+      version: 1,
+    },
+    properties: {
+      "preserves-vector-representation": true,
+    },
+  });
 };
 
 const getComponents = async () => {
@@ -50,26 +86,35 @@ const getSvgImages = async (ids) => {
 };
 
 async function main() {
-  console.log(PLATFORM);
-  // // ディレクトリを削除して初期化
-  // await fs.promises.rm(`${__dirname}/assets`, { recursive: true, force: true });
-  // // ディレクトリを作成
-  // await fs.promises.mkdir(`${__dirname}/assets`, { recursive: true });
-  // // コンポーネントを取得
-  // const components = await getComponents();
-  // // 画像を取得
-  // const ids = components.map((r) => r.node_id).join(",");
-  // const { images } = await getSvgImages(ids);
+  // ディレクトリを削除して初期化
+  await fs.promises.rm(iOSImageDir, { recursive: true, force: true });
+  await fs.promises.rm(androidImageDir, { recursive: true, force: true });
 
-  // // 画像をダウンロード
-  // const nodeIds = Object.keys(images);
-  // nodeIds.forEach(async (nodeId) => {
-  //   const url = images[nodeId];
-  //   const component = components.find((r) => r.node_id === nodeId);
-  //   const name = component.name;
-  //   const filePath = `${__dirname}/assets/${name}.svg`;
-  //   await download(url, filePath);
-  // });
+  // ディレクトリを作成
+  if (PLATFORM === "android") {
+    await fs.promises.mkdir(androidImageDir, { recursive: true });
+  } else {
+    await fs.promises.mkdir(iOSImageDir, { recursive: true });
+  }
+
+  // コンポーネントを取得
+  const components = await getComponents();
+  // 画像を取得
+  const ids = components.map((r) => r.node_id).join(",");
+  const { images } = await getSvgImages(ids);
+
+  // 画像をダウンロード
+  const nodeIds = Object.keys(images);
+  nodeIds.forEach(async (nodeId) => {
+    const url = images[nodeId];
+    const component = components.find((r) => r.node_id === nodeId);
+    const name = component.name;
+    if (PLATFORM === "android") {
+      await downloadXML(url, name);
+    } else {
+      await downloadSVG(url, name);
+    }
+  });
 }
 
 main();
