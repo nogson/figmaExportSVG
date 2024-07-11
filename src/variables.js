@@ -8,15 +8,14 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-
 async function main() {
   // ディレクトリを削除して初期化
-  await fs.promises.rm(`${__dirname}/.style-dictionary/tokens`, {
+  await fs.promises.rm(`${__dirname}/.styleDictionary/tokens`, {
     recursive: true,
     force: true,
   });
   // ディレクトリを作成
-  await fs.promises.mkdir(`${__dirname}/.style-dictionary/tokens`, {
+  await fs.promises.mkdir(`${__dirname}/.styleDictionary/tokens`, {
     recursive: true,
   });
   // jsonを取得
