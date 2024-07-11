@@ -20,13 +20,13 @@ jobs:
       - name: Prepare Payload
         run: |
           mkdir -p ./style-dictionary/tokens
-          echo '${{ toJson(github.event.client_payload.data) }}' > ./style-dictionary/tokens/variables.json
+          echo '${{ toJson(github.event.client_payload.data) }}' > ./styleDictionary/tokens/variables.json
       # - name: Update Variables
       #   run: npm run build:variables  -- ./style-dictionary/tokens/variables.json
       - name: Build tokens and remove variables.json
         run: |
           npm run build:tokens
-          rm ./styleDictionary/tokens/**/*.json
+          rm ./styleDictionary/tokens/variables.json
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
