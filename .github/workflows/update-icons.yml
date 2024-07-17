@@ -8,9 +8,27 @@ jobs:
   update-icon:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Global Git Configuration
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+      - name: Checkout makePR's repo
+        uses: actions/checkout@v3
         with:
+          repository: "nogson/figmaExportSVG"
+          fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
+      - name: Generate github token for GitHub App
+        id: generate_token
+        uses: tibdex/github-app-token@v2
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.PRIVATE_KEY }} 
+      - name: Checkout takePR's repo
+        uses: actions/checkout@v3
+        with:
+          repository: "nogson/takePR"
+          token: ${{ steps.generate_token.outputs.token }}
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
@@ -22,7 +40,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          token: ${{ steps.generate_token.outputs.token }}
           commit-message: "feat: update icons"
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
