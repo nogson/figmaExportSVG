@@ -48,10 +48,7 @@ jobs:
 
       # 更新されたアイコンを"nogson/takePR"リポジトリにコピー
       - name: Copy updated icons to takePR's repo
-        run: |
-          echo "AAAAAA:"
-          echo ls -la ./
-
+        run: cp -R ./src/* ./
       # プルリクエストの作成
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
