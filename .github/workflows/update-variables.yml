@@ -22,7 +22,6 @@ jobs:
           private_key: ${{ secrets.PRIVATE_KEY }}
 
       # "nogson/figmaExportSVG"リポジトリをチェックアウト
-      # "nogson/figmaExportSVG"リポジトリをチェックアウト
       - name: Checkout figmaExportSVG's repo
         uses: actions/checkout@v4
         with:
@@ -58,21 +57,21 @@ jobs:
           fetch-depth: 0
           path: "takePR"
 
-      # 更新されたアイコンを"nogson/takePR"リポジトリにコピー
-      - name: Copy updated icons to takePR's repo
-        run: cp -R ./build takePR/
+      # 更新されたvariablesを"nogson/takePR"リポジトリにコピー
+      - name: Copy updated variables to takePR's repo
+        run: cp -R ./build/* takePR/
 
       # プルリクエストの作成
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ steps.generate_token.outputs.token }}
-          commit-message: "feat: update icons"
+          commit-message: "feat: update variables"
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-          branch: feat/update-icons
+          branch: feat/update-variables
           branch-suffix: timestamp
           delete-branch: true
-          title: "feat: update icons"
-          body: Icons has been updated
+          title: "feat: update variables"
+          body: Variables has been updated
           path: "takePR"
