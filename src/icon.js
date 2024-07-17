@@ -65,7 +65,6 @@ const getComponents = async () => {
       }
     );
     const body = await res.json();
-    console.log(body);
 
     return body.meta.components;
   } catch (error) {
