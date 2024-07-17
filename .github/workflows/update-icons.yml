@@ -33,6 +33,12 @@ jobs:
       - name: Update Icon
         run: |
           FIGMA_TOKEN=${{ secrets.FIGMA_TOKEN }} FIGMA_FILE_KEY=${{ secrets.FIGMA_FILE_KEY }} PLATFORM=${{github.event.client_payload.platform}} npm run build:icon
+          # アイコンが生成されたディレクトリの内容をリストアップ（デバッグ用）
+          echo "Listing contents of the expected directory:"
+          ls -la ./PBaseNavi/
+
+
+          cp -R ./PBaseNavi/* ../icons-updates/
 
       # "nogson/takePR"リポジトリをチェックアウト
       - name: Checkout takePR's repo
@@ -42,6 +48,11 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
           path: "takePR"
+
+      # 更新されたアイコンを"nogson/takePR"リポジトリにコピー
+      - name: Copy updated icons to takePR's repo
+        run: |
+          cp -R ../icons-updates/* ./takePR/path/to/icons/
 
       # プルリクエストの作成
       - name: Create Pull Request
