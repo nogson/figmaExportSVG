@@ -35,10 +35,10 @@ jobs:
           FIGMA_TOKEN=${{ secrets.FIGMA_TOKEN }} FIGMA_FILE_KEY=${{ secrets.FIGMA_FILE_KEY }} PLATFORM=${{github.event.client_payload.platform}} npm run build:icon
           # アイコンが生成されたディレクトリの内容をリストアップ（デバッグ用）
           echo "Listing contents of the expected directory:"
-          ls -la ./
+          ls -la ./src/PBaseNavi/
 
 
-          cp -R ./PBaseNavi/* ../icons-updates/
+          cp -R ./src/PBaseNavi/* ../icons-updates/
 
       # "nogson/takePR"リポジトリをチェックアウト
       - name: Checkout takePR's repo
