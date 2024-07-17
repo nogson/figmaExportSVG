@@ -8,56 +8,44 @@ jobs:
   update-icon:
     runs-on: ubuntu-latest
     steps:
-      - name: Global Git Configuration
+      - name: Configure Git
         run: |
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
 
-      # トークンを生成    
-      - name: Generate github token for GitHub App
+      - name: Generate GitHub Token
         id: generate_token
         uses: tibdex/github-app-token@v2
         with:
           app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.PRIVATE_KEY }}    
+          private_key: ${{ secrets.PRIVATE_KEY }}
 
-      # "nogson/figmaExportSVG"リポジトリをチェックアウト
-      - name: Checkout figmaExportSVG's repo
-        uses: actions/checkout@v3
-        with:
-          repository: "nogson/figmaExportSVG"
-          fetch-depth: 0
-
-      # Node.jsのセットアップ
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: "20.x"
 
-      # 依存関係のインストール
-      - name: Install
-        run: npm ci
-
-      # アイコンの更新
-      - name: Update Icon
-        run: |
-          FIGMA_TOKEN=${{ secrets.FIGMA_TOKEN }} FIGMA_FILE_KEY=${{ secrets.FIGMA_FILE_KEY }} PLATFORM=${{github.event.client_payload.platform}} npm run build:icon
-          # アイコンが生成されたディレクトリの内容をリストアップ（デバッグ用）
-          echo "Listing contents of the expected directory:"
-          ls -la ./src/PBaseNavi/
-
-      # "nogson/takePR"リポジトリをチェックアウト
-      - name: Checkout takePR's repo
+      - name: Checkout Repositories
         uses: actions/checkout@v3
         with:
-          repository: "nogson/takePR"
+          repository: ${{ github.event.client_payload.repository }}
           token: ${{ steps.generate_token.outputs.token }}
           fetch-depth: 0
-          path: "takePR"
+          path: ${{ github.event.client_payload.path }}
 
-      # 更新されたアイコンを"nogson/takePR"リポジトリにコピー
-      - name: Copy updated icons to takePR's repo
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Update Icons
+        env:
+          FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
+          FIGMA_FILE_KEY: ${{ secrets.FIGMA_FILE_KEY }}
+          PLATFORM: ${{ github.event.client_payload.platform }}
+        run: npm run build:icon && ls -la ./src/PBaseNavi/
+
+      - name: Copy Icons to takePR Repo
         run: cp -R ./src/PBaseNavi/* takePR/
-      # プルリクエストの作成
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
@@ -69,5 +57,5 @@ jobs:
           branch-suffix: timestamp
           delete-branch: true
           title: "feat: update icons"
-          body: Icons has been updated
+          body: "Icons have been updated."
           path: "takePR"
