@@ -58,16 +58,12 @@ jobs:
       - name: Copy updated icons to takePR's repo
         run: cp -R ./src/PBaseNavi/* takePR/
       # プルリクエストの作成
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
+      - name: Create Pull Request to takePR's repo
+        uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ steps.generate_token.outputs.token }}
-          commit-message: "feat: update icons"
-          committer: GitHub <noreply@github.com>
-          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-          branch: feat/update-icons
-          branch-suffix: timestamp
-          delete-branch: true
-          title: "feat: update icons"
-          body: Icons has been updated
+          commit-message: "Update from makePR"
+          title: "Update from makePR"
+          body: "This is an automated PR to update content"
+          branch: "update-from-makePR"
           path: "takePR"
