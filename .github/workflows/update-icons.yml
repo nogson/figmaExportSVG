@@ -13,13 +13,13 @@ jobs:
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
 
-      # トークンを生成    
+      # トークンを生成
       - name: Generate github token for GitHub App
         id: generate_token
         uses: tibdex/github-app-token@v2
         with:
           app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.PRIVATE_KEY }}    
+          private_key: ${{ secrets.PRIVATE_KEY }}
 
       # "nogson/figmaExportSVG"リポジトリをチェックアウト
       - name: Checkout figmaExportSVG's repo
@@ -53,7 +53,7 @@ jobs:
 
       # 更新されたアイコンを"nogson/takePR"リポジトリにコピー
       - name: Copy updated icons to takePR's repo
-        run: cp -R ./src/PBaseNavi/* takePR/
+        run: cp -R ./src/PBaseNavi takePR/
       # プルリクエストの作成
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
