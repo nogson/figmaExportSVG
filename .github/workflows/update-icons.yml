@@ -33,7 +33,11 @@ jobs:
       - name: Update Icon
         run: |
           FIGMA_TOKEN=${{ secrets.FIGMA_TOKEN }} FIGMA_FILE_KEY=${{ secrets.FIGMA_FILE_KEY }} PLATFORM=${{github.event.client_payload.platform}} npm run build:icon
-          mkdir ../icons-updates
+          # アイコンが生成されたディレクトリの内容をリストアップ（デバッグ用）
+          echo "Listing contents of the expected directory:"
+          ls -la ./path/to/updated/icons/
+
+          mkdir -p ../icons-updates
           cp -R ./path/to/updated/icons/* ../icons-updates/
 
       # "nogson/takePR"リポジトリをチェックアウト
