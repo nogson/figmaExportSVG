@@ -7,6 +7,13 @@ on:
 jobs:
   update-icon:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - repo: "nogson/takePR"
+            platform: "iOS"
+          - repo: "nogson/takePR02"
+            platform: "Android"
     steps:
       - name: Global Git Configuration
         run: |
@@ -40,7 +47,7 @@ jobs:
       # アイコンの更新
       - name: Update Icon
         run: |
-          FIGMA_TOKEN=${{ secrets.FIGMA_TOKEN }} FIGMA_FILE_KEY=${{ secrets.FIGMA_FILE_KEY }} PLATFORM=${{github.event.client_payload.platform}} npm run build:icon
+          FIGMA_TOKEN=${{ secrets.FIGMA_TOKEN }} FIGMA_FILE_KEY=${{ secrets.FIGMA_FILE_KEY }} PLATFORM=${{matrix.platform}} npm run build:icon
 
       # "nogson/takePR"リポジトリをチェックアウト
       - name: Checkout takePR's repo
@@ -49,11 +56,11 @@ jobs:
           repository: "nogson/takePR"
           token: ${{ steps.generate_token.outputs.token }}
           fetch-depth: 0
-          path: "takePR"
+          path: repo
 
       # 更新されたアイコンを"nogson/takePR"リポジトリにコピー
       - name: Copy updated icons to takePR's repo
-        run: cp -R ./src/PBaseNavi takePR/
+        run: cp -R ./src/PBaseNavi repo/
 
       # プルリクエストの作成
       - name: Create Pull Request
@@ -68,4 +75,4 @@ jobs:
           delete-branch: true
           title: "feat: update icons"
           body: Icons has been updated
-          path: "takePR"
+          path: repo
