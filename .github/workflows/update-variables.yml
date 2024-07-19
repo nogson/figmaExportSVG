@@ -7,6 +7,9 @@ on:
 jobs:
   update-icon:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repo: ["nogson/takePR", "nogson/takePR02"]
     steps:
       - name: Global Git Configuration
         run: |
@@ -52,14 +55,14 @@ jobs:
       - name: Checkout takePR's repo
         uses: actions/checkout@v4
         with:
-          repository: "nogson/takePR"
+          repository: ${{ matrix.repo }}
           token: ${{ steps.generate_token.outputs.token }}
           fetch-depth: 0
-          path: "takePR"
+          path: repo
 
       # 更新されたvariablesを"nogson/takePR"リポジトリにコピー
       - name: Copy updated variables to takePR's repo
-        run: cp -R ./build/* takePR/
+        run: cp -R ./build/* repo/
 
       # プルリクエストの作成
       - name: Create Pull Request
@@ -74,4 +77,4 @@ jobs:
           delete-branch: true
           title: "feat: update variables"
           body: Variables has been updated
-          path: "takePR"
+          path: repo
