@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        repo: ["nogson/takePR", "nogson/takePR02"]
+        repo: ["nogson/takePR"  ]
     steps:
       - name: Global Git Configuration
         run: |
