@@ -9,7 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        repo: ["nogson/takePR", "nogson/takePR02"]
+        include:
+          - repo: "nogson/takePR"
+            platform: "iOS"
+          - repo: "nogson/takePR02"
+            platform: "Android"
     steps:
       - name: Global Git Configuration
         run: |
